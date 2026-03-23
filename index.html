@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Key</title>
+
+<style>
+body {
+    font-family: Arial;
+    text-align: center;
+    background: #111;
+    color: white;
+    padding: 20px;
+}
+
+input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+}
+
+button {
+    width: 90%;
+    padding: 12px;
+    margin: 5px 0;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background: #00cc99;
+}
+
+#result {
+    margin-top: 15px;
+    word-break: break-all;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Giải đố để lấy key</h2>
+
+<p id="question"></p>
+<input id="answer" placeholder="Nhập đáp án...">
+
+<button onclick="check()">Trả lời</button>
+<button onclick="buy()">Mua đáp án</button>
+
+<p id="result"></p>
+
+<p style="font-size:12px; color:gray; margin-top:30px;">
+Bạn dùng AI cũng được 😏 nhưng tự giải vẫn ngầu hơn 🔥
+</p>
+
+<script>
+
+// tạo câu hỏi random
+let a = Math.floor(Math.random()*20)+1;
+let b = Math.floor(Math.random()*20)+1;
+let c = Math.floor(Math.random()*10)+1;
+
+let ops = ["+", "-", "*"];
+let op1 = ops[Math.floor(Math.random()*ops.length)];
+let op2 = ops[Math.floor(Math.random()*ops.length)];
+
+document.getElementById("question").innerText = `${a} ${op1} ${b} ${op2} ${c} = ?`;
+
+// tính đáp án
+function calc(x,o,y){
+    if(o==="+") return x+y;
+    if(o==="-") return x-y;
+    if(o==="*") return x*y;
+}
+let ans = calc(calc(a,op1,b),op2,c);
+
+// tạo key random full ký tự
+function genKey(){
+    let chars = "1234567890@#₫_&-+()/*\"':;!?~`|QWERTYUIOPASDFGHJKLZXCVBNMabcdefghijklmnopqrstuvwxyz";
+    let k = "";
+    for(let i=0;i<25;i++){
+        k += chars[Math.floor(Math.random()*chars.length)];
+    }
+    return "KEY-" + k.match(/.{1,5}/g).join("-");
+}
+
+// kiểm tra đáp án
+function check(){
+    let user = document.getElementById("answer").value;
+    if(user == ans){
+        document.getElementById("result").innerText = genKey();
+    } else {
+        document.getElementById("result").innerText = "Sai rồi 😈";
+    }
+}
+
+// mua đáp án
+function buy(){
+    let x = Math.floor(Math.random()*10)+1;
+    let y = Math.floor(Math.random()*10)+1;
+
+    let sub = prompt(`${x} + ${y} = ?`);
+
+    if(sub == x + y){
+        document.getElementById("result").innerText = "Đáp án: " + ans;
+    } else {
+        document.getElementById("result").innerText = "Sai câu phụ 😈";
+    }
+}
+
+</script>
+
+</body>
+</html>
